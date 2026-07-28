@@ -24,7 +24,6 @@ Estadías · Eventos · Retiros
 
 Cada ambiente fue pensado para que grupos, familias y equipos encuentren su ritmo: mañanas de sol, tardes de agua y noches de sobremesa. Ya sea para unos días de descanso, una celebración o un retiro de bienestar, la casa se adapta a lo que necesites vivir.
 
-Casa Alma es una unidad de negocio del **Proyecto Alma** (marca Rene Boiero).
 
 <br clear="right"/>
 
