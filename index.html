@@ -214,7 +214,8 @@
 
   /* ===== Availability calendar ===== */
   .avail{background:linear-gradient(180deg,#eaf3f2,var(--cream))}
-  .cal-card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:clamp(1.3rem,3vw,2.2rem);margin-top:2.4rem;max-width:840px}
+  .cal-card{background:var(--white);border-radius:var(--radius);padding:clamp(1.2rem,2.6vw,2rem);margin:2.6rem auto 0;max-width:700px;position:relative;z-index:1;border:1px solid rgba(12,122,125,.10);box-shadow:0 26px 60px -30px rgba(12,122,125,.5), 0 10px 28px -20px rgba(20,45,45,.35)}
+  .cal-card::before{content:"";position:absolute;inset:-9% -7% -13%;background:radial-gradient(58% 55% at 50% 28%, rgba(12,122,125,.16), transparent 72%);filter:blur(32px);z-index:-1;pointer-events:none}
   .cal-legend{display:flex;gap:1.4rem;flex-wrap:wrap;margin-bottom:1.5rem;font-size:.82rem;color:var(--ink-soft)}
   .cal-legend span{display:flex;align-items:center;gap:.45rem}
   .cal-legend i{width:15px;height:15px;border-radius:5px;display:inline-block;flex:none}
@@ -226,7 +227,7 @@
   .cal-nav{width:42px;height:42px;border-radius:50%;border:1.5px solid var(--cream-2);background:var(--white);color:var(--teal);font-size:1.4rem;cursor:pointer;transition:background .2s,border-color .2s,color .2s;line-height:1;flex:none}
   .cal-nav:hover:not(:disabled){background:var(--teal);color:#fff;border-color:var(--teal)}
   .cal-nav:disabled{opacity:.3;cursor:not-allowed}
-  .cal-months{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+  .cal-months{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
   .cal-month h4{text-align:center;font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:var(--ink);margin-bottom:.7rem;text-transform:capitalize;font-weight:500}
   .cal-dows,.cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
   .cal-dows span{text-align:center;font-size:.68rem;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);padding-bottom:.35rem}
@@ -253,7 +254,8 @@
   .rene-ico:hover{transform:translateY(-3px);background:var(--teal);color:#fff;border-color:var(--teal)}
   .rene-ico svg{width:22px;height:22px}
   .rene-books{margin-top:3rem}
-  .rene-books h3{margin-bottom:1.3rem;text-align:center}
+  .rene-books h3{margin-bottom:.5rem;text-align:center}
+  .rene-books-sub{text-align:center;color:var(--ink-soft);max-width:50ch;margin:0 auto 1.7rem;font-size:1rem}
   .book-carousel{position:relative}
   .book-track{display:flex;flex-wrap:wrap;justify-content:center;gap:1.4rem;padding:.4rem .2rem 1.1rem}
   .book-track::-webkit-scrollbar{height:6px}
@@ -591,7 +593,8 @@
     </div>
 
     <div class="rene-books reveal">
-      <h3 data-es="Sus libros" data-en="His books">Sus libros</h3>
+      <h3 data-es="Una lectura para tu estadía" data-en="A read for your stay">Una lectura para tu estadía</h3>
+      <p class="rene-books-sub" data-es="Llevate uno de los libros de Rene Boiero para acompañar tu descanso en Casa Alma." data-en="Take one of Rene Boiero's books to enrich your stay at Casa Alma.">Llevate uno de los libros de Rene Boiero para acompañar tu descanso en Casa Alma.</p>
       <div class="book-carousel">
         <div class="book-track" id="bookTrack">
           <div class="book-card">
