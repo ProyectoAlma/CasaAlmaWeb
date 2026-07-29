@@ -1,0 +1,4 @@
+# Configuración de Netlify para Casa Alma
+[build]
+  publish = "."
+  functions = "netlify/functions"

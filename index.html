@@ -211,6 +211,38 @@
     section{padding:clamp(3rem,12vw,5rem) 0}
     .hero .wrap{padding-top:5rem}
   }
+
+  /* ===== Availability calendar ===== */
+  .avail{background:linear-gradient(180deg,#eaf3f2,var(--cream))}
+  .cal-card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:clamp(1.3rem,3vw,2.2rem);margin-top:2.4rem;max-width:840px}
+  .cal-legend{display:flex;gap:1.4rem;flex-wrap:wrap;margin-bottom:1.5rem;font-size:.82rem;color:var(--ink-soft)}
+  .cal-legend span{display:flex;align-items:center;gap:.45rem}
+  .cal-legend i{width:15px;height:15px;border-radius:5px;display:inline-block;flex:none}
+  .cal-legend .dot-av{background:#fff;border:1.5px solid var(--cream-2)}
+  .cal-legend .dot-bk{background:repeating-linear-gradient(135deg,#efe8da,#efe8da 3px,#e2d8c4 3px,#e2d8c4 6px)}
+  .cal-legend .dot-sel{background:var(--teal)}
+  .cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.1rem;gap:1rem}
+  .cal-head strong{color:var(--teal);font-family:'Cormorant Garamond',serif;font-size:1.35rem;text-transform:capitalize;letter-spacing:.3px}
+  .cal-nav{width:42px;height:42px;border-radius:50%;border:1.5px solid var(--cream-2);background:var(--white);color:var(--teal);font-size:1.4rem;cursor:pointer;transition:background .2s,border-color .2s,color .2s;line-height:1;flex:none}
+  .cal-nav:hover:not(:disabled){background:var(--teal);color:#fff;border-color:var(--teal)}
+  .cal-nav:disabled{opacity:.3;cursor:not-allowed}
+  .cal-months{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+  .cal-month h4{text-align:center;font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:var(--ink);margin-bottom:.7rem;text-transform:capitalize;font-weight:500}
+  .cal-dows,.cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+  .cal-dows span{text-align:center;font-size:.68rem;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);padding-bottom:.35rem}
+  .cal-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:.9rem;border-radius:9px;color:var(--ink);transition:background .15s,color .15s;user-select:none}
+  .cal-day.out{visibility:hidden}
+  .cal-day.disabled{color:#cdd2d0;cursor:default}
+  .cal-day.booked{color:#b6ac97;cursor:not-allowed;background:repeating-linear-gradient(135deg,#f1ebde,#f1ebde 4px,#e4dac6 4px,#e4dac6 8px);text-decoration:line-through}
+  .cal-day.available{cursor:pointer}
+  .cal-day.available:hover{background:rgba(12,122,125,.13)}
+  .cal-day.range{background:rgba(12,122,125,.15);border-radius:0}
+  .cal-day.sel{background:var(--teal);color:#fff}
+  .cal-summary{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-top:1.7rem;padding-top:1.4rem;border-top:1px solid var(--cream-2)}
+  .cal-sel-dates{font-weight:500;color:var(--ink);font-size:.98rem}
+  .cal-actions{display:flex;gap:.7rem;flex-wrap:wrap}
+  .cal-note{font-size:.76rem;color:var(--ink-soft);opacity:.85;margin-top:.9rem}
+  @media(max-width:640px){ .cal-months{grid-template-columns:1fr;gap:1.6rem} }
 </style>
 </head>
 <body>
@@ -391,6 +423,38 @@
   </div>
 </section>
 
+<!-- ============ AVAILABILITY ============ -->
+<section class="avail" id="disponibilidad">
+  <div class="wrap">
+    <div class="reveal" style="max-width:60ch">
+      <span class="eyebrow" data-es="Disponibilidad" data-en="Availability">Disponibilidad</span>
+      <h2 data-es="Consultá las fechas disponibles" data-en="Check available dates">Consultá las fechas disponibles</h2>
+      <p class="lead" data-es="Elegí tu llegada y tu salida en el calendario y consultanos. Las fechas ocupadas se sincronizan con nuestras reservas." data-en="Pick your check-in and check-out on the calendar and get in touch. Booked dates sync with our reservations.">Elegí tu llegada y tu salida en el calendario y consultanos. Las fechas ocupadas se sincronizan con nuestras reservas.</p>
+    </div>
+    <div class="cal-card reveal">
+      <div class="cal-legend">
+        <span><i class="dot-av"></i> <span data-es="Disponible" data-en="Available">Disponible</span></span>
+        <span><i class="dot-bk"></i> <span data-es="Ocupado" data-en="Booked">Ocupado</span></span>
+        <span><i class="dot-sel"></i> <span data-es="Tu selección" data-en="Your selection">Tu selección</span></span>
+      </div>
+      <div class="cal-head">
+        <button id="calPrev" class="cal-nav" type="button" aria-label="Mes anterior">‹</button>
+        <strong id="calRange"></strong>
+        <button id="calNext" class="cal-nav" type="button" aria-label="Mes siguiente">›</button>
+      </div>
+      <div class="cal-months" id="calMonths"></div>
+      <div class="cal-summary">
+        <div class="cal-sel-dates" id="calSel"></div>
+        <div class="cal-actions">
+          <button id="calClear" type="button" class="btn btn-ghost" data-es="Limpiar" data-en="Clear">Limpiar</button>
+          <a id="calWa" class="btn btn-gold" target="_blank" rel="noopener" data-es="Consultar por WhatsApp" data-en="Ask via WhatsApp">Consultar por WhatsApp</a>
+        </div>
+      </div>
+      <p class="cal-note" data-es="La disponibilidad es orientativa y está sujeta a confirmación." data-en="Availability is indicative and subject to confirmation.">La disponibilidad es orientativa y está sujeta a confirmación.</p>
+    </div>
+  </div>
+</section>
+
 <!-- ============ RESERVE ============ -->
 <section class="reserve" id="reserve">
   <div class="wrap">
@@ -544,6 +608,118 @@
 
   document.getElementById('year').textContent=new Date().getFullYear();
   refreshWA();
+})();
+</script>
+
+<script>
+/* ===== Calendario de disponibilidad Casa Alma ===== */
+(function(){
+  var WA="5493515523836";
+  var monEs=["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+  var monEn=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  var monFullEs=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+  var monFullEn=["January","February","March","April","May","June","July","August","September","October","November","December"];
+  var dowEs=["lun","mar","mié","jue","vie","sáb","dom"];
+  var dowEn=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+
+  var months=document.getElementById('calMonths');
+  if(!months) return;
+  var elPrev=document.getElementById('calPrev'), elNext=document.getElementById('calNext');
+  var elRange=document.getElementById('calRange'), elSel=document.getElementById('calSel'), elWa=document.getElementById('calWa'), elClear=document.getElementById('calClear');
+
+  var today=new Date(); today.setHours(0,0,0,0);
+  var todayKey=key(today.getFullYear(),today.getMonth(),today.getDate());
+  var view={y:today.getFullYear(),m:today.getMonth()};
+  var start=null, end=null;         // 'YYYY-MM-DD'
+  var booked={};                    // set of booked night keys
+
+  function lang(){ return document.documentElement.lang==='en'?'en':'es'; }
+  function pad(n){ return (n<10?'0':'')+n; }
+  function key(y,m,d){ return y+'-'+pad(m+1)+'-'+pad(d); }
+  function parse(k){ var p=k.split('-'); return new Date(+p[0],+p[1]-1,+p[2]); }
+  function nights(a,b){ return Math.round((parse(b)-parse(a))/86400000); }
+  function fmt(k){ var d=parse(k), L=lang(); var dw=(d.getDay()+6)%7; return (L==='en'?dowEn:dowEs)[dw]+' '+d.getDate()+' '+(L==='en'?monEn:monEs)[d.getMonth()]; }
+  function rangeBlocked(a,b){ var d=parse(a), e=parse(b); while(d<e){ var k=key(d.getFullYear(),d.getMonth(),d.getDate()); if(booked[k]||k<todayKey) return true; d.setDate(d.getDate()+1); } return false; }
+
+  function monthHTML(y,m){
+    var L=lang();
+    var first=new Date(y,m,1);
+    var lead=(first.getDay()+6)%7;
+    var dim=new Date(y,m+1,0).getDate();
+    var dows=(L==='en'?dowEn:dowEs).map(function(x){return '<span>'+x+'</span>';}).join('');
+    var cells='';
+    for(var i=0;i<lead;i++) cells+='<div class="cal-day out"></div>';
+    for(var d=1;d<=dim;d++){
+      var k=key(y,m,d), cls='cal-day', clickable=false;
+      if(k<todayKey) cls+=' disabled';
+      else if(booked[k]) cls+=' booked';
+      else { cls+=' available'; clickable=true; }
+      if(clickable){
+        if(k===start||k===end) cls+=' sel';
+        else if(start&&end&&k>start&&k<end) cls+=' range';
+      }
+      cells+='<div class="'+cls+'"'+(clickable?' data-d="'+k+'"':'')+'>'+d+'</div>';
+    }
+    return '<div class="cal-month"><h4>'+(L==='en'?monFullEn:monFullEs)[m]+' '+y+'</h4>'+
+           '<div class="cal-dows">'+dows+'</div><div class="cal-days">'+cells+'</div></div>';
+  }
+
+  function render(){
+    var m2=(view.m+1)%12, y2=view.m===11?view.y+1:view.y;
+    months.innerHTML=monthHTML(view.y,view.m)+monthHTML(y2,m2);
+    var L=lang();
+    var sm=(L==='en'?monEn:monEs);
+    elRange.textContent = (view.y===y2)
+      ? sm[view.m]+' – '+sm[m2]+' '+y2
+      : sm[view.m]+' '+view.y+' – '+sm[m2]+' '+y2;
+    elPrev.disabled = (view.y<today.getFullYear())||(view.y===today.getFullYear()&&view.m<=today.getMonth());
+    summary();
+  }
+
+  function summary(){
+    var L=lang();
+    if(start&&end){
+      var n=nights(start,end);
+      elSel.textContent=(L==='en'?'Check-in: ':'Llegada: ')+fmt(start)+'  ·  '+(L==='en'?'Check-out: ':'Salida: ')+fmt(end)+'  ·  '+n+(L==='en'?(n===1?' night':' nights'):(n===1?' noche':' noches'));
+    } else if(start){
+      elSel.textContent=(L==='en'?'Check-in: ':'Llegada: ')+fmt(start)+' — '+(L==='en'?'now pick your check-out':'elegí tu fecha de salida');
+    } else {
+      elSel.textContent=(L==='en'?'Pick your check-in date':'Elegí tu fecha de llegada');
+    }
+    // WhatsApp
+    var msg;
+    if(start&&end) msg=(L==='en'?'Hi Casa Alma! I’d like to check availability from '+fmt(start)+' to '+fmt(end)+' ('+nights(start,end)+' nights).':'¡Hola Casa Alma! Quería consultar disponibilidad del '+fmt(start)+' al '+fmt(end)+' ('+nights(start,end)+' noches).');
+    else if(start) msg=(L==='en'?'Hi Casa Alma! I’d like to check availability from '+fmt(start)+'.':'¡Hola Casa Alma! Quería consultar disponibilidad a partir del '+fmt(start)+'.');
+    else msg=(L==='en'?'Hi Casa Alma! I’d like to check availability.':'¡Hola Casa Alma! Quería consultar disponibilidad.');
+    elWa.href='https://wa.me/'+WA+'?text='+encodeURIComponent(msg);
+    // prefill the enquiry form dates
+    var ci=document.querySelector('input[name="checkin"]'), co=document.querySelector('input[name="checkout"]');
+    if(ci) ci.value=start||''; if(co) co.value=end||'';
+  }
+
+  months.addEventListener('click',function(e){
+    var c=e.target.closest('[data-d]'); if(!c) return;
+    var k=c.getAttribute('data-d');
+    if(!start||(start&&end)){ start=k; end=null; }
+    else if(k>start && !rangeBlocked(start,k)){ end=k; }
+    else { start=k; end=null; }
+    render();
+  });
+  elPrev.addEventListener('click',function(){ if(elPrev.disabled) return; view.m--; if(view.m<0){view.m=11;view.y--;} render(); });
+  elNext.addEventListener('click',function(){ view.m++; if(view.m>11){view.m=0;view.y++;} render(); });
+  elClear.addEventListener('click',function(){ start=null; end=null; render(); });
+  document.querySelectorAll('#lang button').forEach(function(b){ b.addEventListener('click',function(){ setTimeout(render,0); }); });
+
+  // sync booked dates from Netlify function (Airbnb/Booking iCal)
+  fetch('/.netlify/functions/availability').then(function(r){return r.json();}).then(function(data){
+    (data.booked||[]).forEach(function(b){
+      var d=parse(b.start), e=parse(b.end);
+      while(d<e){ booked[key(d.getFullYear(),d.getMonth(),d.getDate())]=1; d.setDate(d.getDate()+1); }
+    });
+    render();
+  }).catch(function(){ render(); });
+
+  render();
 })();
 </script>
 </body>
