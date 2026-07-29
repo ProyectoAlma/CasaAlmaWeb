@@ -253,9 +253,9 @@
   .rene-ico:hover{transform:translateY(-3px);background:var(--teal);color:#fff;border-color:var(--teal)}
   .rene-ico svg{width:22px;height:22px}
   .rene-books{margin-top:3rem}
-  .rene-books h3{margin-bottom:1.3rem}
+  .rene-books h3{margin-bottom:1.3rem;text-align:center}
   .book-carousel{position:relative}
-  .book-track{display:flex;gap:1.2rem;overflow-x:auto;scroll-snap-type:x mandatory;padding:.4rem .2rem 1.1rem;scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
+  .book-track{display:flex;flex-wrap:wrap;justify-content:center;gap:1.4rem;padding:.4rem .2rem 1.1rem}
   .book-track::-webkit-scrollbar{height:6px}
   .book-track::-webkit-scrollbar-thumb{background:var(--cream-2);border-radius:10px}
   .book-card{flex:0 0 auto;width:180px;scroll-snap-align:start;background:var(--white);border-radius:14px;overflow:hidden;box-shadow:0 10px 26px -20px rgba(20,45,45,.55);display:flex;flex-direction:column;transition:transform .28s,box-shadow .28s}
@@ -593,7 +593,6 @@
     <div class="rene-books reveal">
       <h3 data-es="Sus libros" data-en="His books">Sus libros</h3>
       <div class="book-carousel">
-        <button class="book-nav prev" id="bookPrev" type="button" aria-label="Anterior">‹</button>
         <div class="book-track" id="bookTrack">
           <div class="book-card">
             <img class="book-cover" src="https://reneboiero.com.ar/wp-content/uploads/2023/12/post-amazon-1.jpg" alt="Totalidad en Tres" loading="lazy" />
@@ -612,7 +611,6 @@
             <div class="book-info"><b>Yo medito</b><a href="https://www.amazon.com/-/es/René-Boiero-ebook/dp/B09NRXM88R/" target="_blank" rel="noopener" data-es="Ver en Amazon →" data-en="See on Amazon →">Ver en Amazon →</a></div>
           </div>
         </div>
-        <button class="book-nav next" id="bookNext" type="button" aria-label="Siguiente">›</button>
       </div>
     </div>
   </div>
