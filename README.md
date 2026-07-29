@@ -24,7 +24,6 @@ Estadías · Eventos · Retiros
 
 Cada ambiente fue pensado para que grupos, familias y equipos encuentren su ritmo: mañanas de sol, tardes de agua y noches de sobremesa. Ya sea para unos días de descanso, una celebración o un retiro de bienestar, la casa se adapta a lo que necesites vivir.
 
-
 <br clear="right"/>
 
 ## ✨ Experiencias
@@ -40,6 +39,15 @@ Cada ambiente fue pensado para que grupos, familias y equipos encuentren su ritm
 <img src="assets/vista-aerea.jpg" width="49%" alt="Vista aérea" />
 </div>
 
+## 🌐 La web incluye
+
+- 🌎 **Bilingüe** (español / inglés) con selector de idioma.
+- 📱 **Responsive** — se ve perfecto en celular, tablet y escritorio.
+- 🏠 **Reservas** con botones directos a Airbnb, WhatsApp e Instagram, y formulario de consulta.
+- 📅 **Calendario de disponibilidad** que se sincroniza con las reservas de Airbnb/Booking (ver más abajo).
+- 🌿 **Universo Rene Boiero** — sección con sus redes (Instagram, YouTube, Spotify, TikTok, web) y sus libros.
+- 🎨 Identidad de marca completa (verde petróleo, logo y tipografías).
+
 ## 📅 Reservas y contacto
 
 | | |
@@ -53,18 +61,34 @@ Cada ambiente fue pensado para que grupos, familias y equipos encuentren su ritm
 
 ## 💻 Sobre este repositorio
 
-Este repositorio contiene el **sitio web de Casa Alma**: una página única, responsive y bilingüe (español / inglés), construida como sitio estático autónomo.
+Sitio web de Casa Alma: una página única, responsive y bilingüe, construida como sitio estático autónomo (sin dependencias ni build).
 
 ```
 CasaAlmaWeb/
-├── index.html        → la web completa (HTML + CSS + JS, con imágenes embebidas)
-├── README.md         → este archivo
-└── assets/           → logo, banner e imágenes del README
+├── index.html                  → la web completa (HTML + CSS + JS, imágenes y logo embebidos)
+├── README.md                   → este archivo
+├── netlify.toml                → configuración de deploy (publish + functions)
+├── netlify/
+│   └── functions/
+│       └── availability.js      → lee los iCal de Airbnb/Booking y devuelve las fechas ocupadas
+└── assets/                     → logo, banner e imágenes del README
 ```
 
-**Publicación:** el sitio se publica automáticamente en **[casalma.netlify.app](https://casalma.netlify.app)** vía Netlify. Cada cambio que se sube a este repositorio se despliega solo.
+**Publicación:** el sitio se despliega automáticamente en **[casalma.netlify.app](https://casalma.netlify.app)** vía Netlify. Cada cambio que se sube a este repositorio se publica solo.
 
 **Para editar contenido rápido** (WhatsApp, links, etc.), buscá el bloque `CONFIG` al final de `index.html`.
+
+### 🔄 Activar la sincronización del calendario
+
+El calendario bloquea las fechas ya reservadas leyendo los calendarios **iCal** de tus plataformas. Para activarlo, cargá en Netlify (**Site configuration → Environment variables**) estas variables:
+
+| Variable | Valor |
+|---|---|
+| `AIRBNB_ICAL` | link `.ics` de exportación de Airbnb |
+| `BOOKING_ICAL` | link `.ics` de exportación de Booking |
+| `ICAL_1` … `ICAL_3` | otros calendarios (ej. un Google Calendar para las reservas directas por llamado o mail) |
+
+Después, **Deploys → Trigger deploy** para que la función tome los cambios. Consejo: usá un Google Calendar como calendario maestro de las reservas directas e importalo también en Airbnb y Booking, para que todo quede sincronizado.
 
 ---
 
@@ -73,6 +97,6 @@ CasaAlmaWeb/
 <img src="assets/logo-casa-alma.png" width="150" alt="Casa Alma" />
 
 **Casa Alma** · Cabalango, Córdoba 🇦🇷
-Hecho con alma 💚 · *Proyecto Alma — Rene Boiero*
+Hecho con alma 💚 · © Rene Boiero
 
 </div>
