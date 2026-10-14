@@ -272,6 +272,22 @@
   .book-nav.prev{left:-8px} .book-nav.next{right:-8px}
   @media(max-width:640px){ .book-nav{display:none} }
 </style>
+<style id="ev-style">
+.eventos{background:var(--teal-deep);color:var(--cream);padding:5rem 0}
+.eventos .ev-head{text-align:center;max-width:48ch;margin:0 auto 2.4rem}
+.eventos h2{color:#fff;margin:.3rem 0}
+.eventos .lead{opacity:.85}
+.ev-list{display:grid;gap:1rem;max-width:720px;margin:0 auto}
+.ev-card{display:flex;gap:1.1rem;align-items:center;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius,16px);padding:1rem 1.2rem}
+.ev-date{flex:0 0 auto;text-align:center;min-width:62px;line-height:1.05}
+.ev-date .d{font-size:1.9rem;font-weight:700;color:var(--gold);display:block}
+.ev-date .m{font-size:.72rem;text-transform:uppercase;letter-spacing:.09em;opacity:.8}
+.ev-info b{font-size:1.05rem}
+.ev-info .meta{display:block;font-size:.85rem;opacity:.82;margin-top:.22rem}
+.ev-empty{text-align:center;opacity:.85;margin:0}
+.ev-cta{text-align:center;margin-top:2.2rem}
+@media(max-width:560px){.eventos{padding:3.6rem 0}.ev-card{padding:.9rem 1rem}.ev-date .d{font-size:1.6rem}}
+</style>
 </head>
 <body>
 
@@ -288,7 +304,8 @@
       <li><a href="#gallery" data-es="Galería" data-en="Gallery">Galería</a></li>
       <li><a href="#exp" data-es="Experiencias" data-en="Experiences">Experiencias</a></li>
       <li><a href="#location" data-es="Ubicación" data-en="Location">Ubicación</a></li>
-      <li><a href="#reserve" class="btn btn-gold" data-es="Reservar" data-en="Book now">Reservar</a></li>
+      <li><a href="#eventos" data-es="Eventos" data-en="Events">Eventos</a>
+<a href="#reserve" class="btn btn-gold" data-es="Reservar" data-en="Book now">Reservar</a></li>
     </ul>
   </nav>
   <div class="nav-right">
@@ -621,6 +638,21 @@
   </div>
 </section>
 
+<!-- ============ PROXIMOS EVENTOS DE RENE ============ -->
+<section class="eventos" id="eventos">
+  <div class="wrap">
+    <div class="ev-head reveal">
+      <span class="eyebrow" data-es="Agenda" data-en="Agenda">Agenda</span>
+      <h2 data-es="Próximos eventos de Rene" data-en="Rene's upcoming events">Próximos eventos de Rene</h2>
+      <p class="lead" data-es="Encuentros, charlas y retiros de Rene Boiero. Sumate a la próxima fecha." data-en="Talks, gatherings and retreats by Rene Boiero. Join the next date.">Encuentros, charlas y retiros de Rene Boiero. Sumate a la próxima fecha.</p>
+    </div>
+    <div id="ev-list" class="ev-list reveal"></div>
+    <div class="ev-cta reveal">
+      <a class="btn btn-gold" href="https://rene-boiero.netlify.app" target="_blank" rel="noopener" data-es="Ver la agenda completa de Rene" data-en="See Rene's full agenda">Ver la agenda completa de Rene</a>
+    </div>
+  </div>
+</section>
+
 <!-- ============ FOOTER ============ -->
 <footer id="contact">
   <div class="wrap">
@@ -816,6 +848,26 @@
   var p=document.getElementById('bookPrev'), n=document.getElementById('bookNext');
   if(p) p.addEventListener('click',function(){ track.scrollBy({left:-step(),behavior:'smooth'}); });
   if(n) n.addEventListener('click',function(){ track.scrollBy({left:step(),behavior:'smooth'}); });
+})();
+</script>
+<script>
+(function(){
+  var MESES=['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'];
+  var el=document.getElementById('ev-list'); if(!el) return;
+  function esc(x){return (x||'').replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function cap(x){return x?x.charAt(0).toUpperCase()+x.slice(1):x;}
+  fetch('/.netlify/functions/eventos').then(function(r){return r.json();}).then(function(data){
+    var evs=(data&&data.events)||[];
+    if(!evs.length){ el.innerHTML='<p class="ev-empty">Pronto anunciaremos nuevas fechas.</p>'; return; }
+    el.innerHTML=evs.map(function(e){
+      var d=new Date(e.start);
+      var fecha=cap(d.toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long'}));
+      var hora=e.allDay?'':(' &middot; '+d.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit',hour12:false})+' h');
+      var loc=e.location?('<span class="meta">&#128205; '+esc(e.location)+'</span>'):'';
+      return '<div class="ev-card"><div class="ev-date"><span class="d">'+d.getDate()+'</span><span class="m">'+MESES[d.getMonth()]+'</span></div>'+
+             '<div class="ev-info"><b>'+esc(e.title)+'</b><span class="meta">'+fecha+hora+'</span>'+loc+'</div></div>';
+    }).join('');
+  }).catch(function(){ el.innerHTML='<p class="ev-empty">Pronto anunciaremos nuevas fechas.</p>'; });
 })();
 </script>
 </body>
